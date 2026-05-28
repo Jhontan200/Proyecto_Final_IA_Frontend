@@ -1,0 +1,19 @@
+# Dependencias de Node (¡Peso masivo!)
+node_modules/
+/dist
+
+# Variables de Entorno y Seguridad (¡Contraseñas!)
+.env
+.env.local
+.env.*.local
+
+# Archivos de configuración del Sistema Operativo
+.DS_Store
+Thumbs.db
+
+# Logs y Caché de compilación
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.vite/
+.local

@@ -1,126 +1,20 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es" class="h-full bg-slate-950 text-slate-100">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SBC - Asesor de Celulares</title>
-    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <title>SBC + SMA Celulares - Sistema Inteligente</title>
 </head>
-<body class="bg-gray-900 text-gray-100 min-h-screen flex flex-col items-center p-6">
 
-    <header class="text-center my-6 max-w-2xl">
-        <h1 class="text-3xl font-bold text-blue-400 mb-2">Asesor Técnico Virtual (SBC)</h1>
-        <p class="text-gray-400">Encuentra tu teléfono celular ideal procesado por nuestro Motor de Inferencia Avanzado.</p>
-    </header>
+<body class="h-full flex flex-col antialiased">
 
-    <main class="w-full max-w-2xl bg-gray-800 p-6 rounded-lg shadow-xl border border-gray-700">
-        <form id="formulario-sbc" class="space-y-6">
-            
-            <div>
-                <label class="block text-sm font-semibold mb-2">1. ¿Cuánto dinero piensas invertir? (Presupuesto en BOB)</label>
-                <input type="number" id="presupuesto" value="2300" class="w-full p-2.5 bg-gray-700 border border-gray-600 rounded focus:outline-none focus:border-blue-500" required>
-            </div>
+    <div id="navbar-root"></div>
 
-            <div>
-                <label class="block text-sm font-semibold mb-2">2. ¿Para qué utilizará el dispositivo más tiempo?</label>
-                <select id="uso" class="w-full p-2.5 bg-gray-700 border border-gray-600 rounded focus:outline-none focus:border-blue-500">
-                    <option value="gaming">Juegos pesados / Gaming exigente</option>
-                    <option value="redes sociales">Redes sociales y navegación diaria</option>
-                    <option value="trabajo">Herramientas de productividad y oficina</option>
-                    <option value="estudio">Tareas de estudio y universidad</option>
-                </select>
-            </div>
-
-            <div>
-                <label class="block text-sm font-semibold mb-2">3. ¿Qué tan importante es la cámara fotográfica?</label>
-                <select id="fotografia" class="w-full p-2.5 bg-gray-700 border border-gray-600 rounded focus:outline-none focus:border-blue-500">
-                    <option value="muy importante">Muy importante (Fotografía de alta calidad)</option>
-                    <option value="normal">Normal (Uso básico de día)</option>
-                </select>
-            </div>
-
-            <div>
-                <label class="block text-sm font-semibold mb-2">4. ¿Necesita batería de larga duración?</label>
-                <select id="bateria" class="w-full p-2.5 bg-gray-700 border border-gray-600 rounded focus:outline-none focus:border-blue-500">
-                    <option value="sí">Sí (Jornadas intensivas fuera de casa)</option>
-                    <option value="no">Normal (Carga estándar diaria)</option>
-                </select>
-            </div>
-
-            <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-4 rounded transition duration-200 cursor-pointer">
-                Obtener Recomendación Inteligente
-            </button>
-        </form>
-
-        <hr class="my-6 border-gray-700">
-
-        <section id="resultados" class="hidden space-y-4">
-            <h2 class="text-xl font-bold text-green-400 mb-2">Top 3 Recomendaciones del Experto:</h2>
-            <div id="lista-celulares" class="space-y-4"></div>
-        </section>
+    <main id="app-root" class="flex-grow container mx-auto px-4 py-12 flex flex-col justify-center items-center">
     </main>
 
-    <script>
-        const API_URL = "http://127.0.0.1:8000/api/recomendar";
-
-        document.getElementById("formulario-sbc").addEventListener("submit", async (e) => {
-            e.preventDefault();
-            
-            // 1. Recopilar datos adaptados para el Motor Estratégico
-            const payload = {
-                presupuesto: parseFloat(document.getElementById("presupuesto").value),
-                uso: document.getElementById("uso").value,
-                fotografia: document.getElementById("fotografia").value,
-                bateria: document.getElementById("bateria").value
-            };
-
-            try {
-                // 2. Enviar los hechos iniciales al Motor de Inferencia en el Backend
-                const response = await fetch(API_URL, {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify(payload)
-                });
-
-                const data = await response.json();
-
-                if (data.success) {
-                    const contenedorResultados = document.getElementById("resultados");
-                    const listaCelulares = document.getElementById("lista-celulares");
-                    
-                    listaCelulares.innerHTML = ""; // Limpiar resultados previos
-                    contenedorResultados.classList.remove("hidden");
-
-                    if (data.recomendaciones.length === 0) {
-                        listaCelulares.innerHTML = `
-                            <p class="text-amber-400 italic bg-amber-950/30 p-3 rounded border border-amber-800/50">
-                                El motor de inferencia analizó la base de conocimiento pero ningún dispositivo cumple con las condiciones lógicas de hardware deducidas para este presupuesto.
-                            </p>`;
-                        return;
-                    }
-
-                    // 3. Renderizar las conclusiones y la trazabilidad del SBC
-                    data.recomendaciones.forEach(cel => {
-                        const tarjeta = document.createElement("div");
-                        tarjeta.className = "p-4 bg-gray-700 rounded-lg border-l-4 border-blue-500 shadow-sm space-y-2";
-                        tarjeta.innerHTML = `
-                            <div class="flex justify-between items-center">
-                                <h3 class="text-lg font-bold text-white">${cel.marca} ${cel.modelo}</h3>
-                                <span class="text-sm px-2 py-1 bg-gray-600 text-blue-300 rounded font-mono font-bold">${cel.precio} ${cel.moneda}</span>
-                            </div>
-                            <div class="text-sm text-gray-300 bg-gray-800/60 p-3 rounded border border-gray-600/50">
-                                <span class="text-blue-400 font-bold block mb-1">Cadena de Razonamiento (SBC):</span> 
-                                ${cel.explicacion}
-                            </div>
-                        `;
-                        listaCelulares.appendChild(tarjeta);
-                    });
-                }
-            } catch (error) {
-                console.error("Error al conectar con el SBC:", error);
-                alert("Error de comunicación: Asegúrate de que el Backend de Python (Uvicorn) esté corriendo.");
-            }
-        });
-    </script>
+    <script type="module" src="/src/main.js"></script>
 </body>
+
 </html>
