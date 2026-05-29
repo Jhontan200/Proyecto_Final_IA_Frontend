@@ -29,5 +29,23 @@ export const API = {
     const data = await response.json();
     if (!response.ok) throw new Error(data.detail || "Error en el registro");
     return data;
+  },
+
+  async obtenerFormulario() {
+    const response = await fetch(`${BASE_URL}/formulario`);
+    const data = await response.json();
+    if (!response.ok) throw new Error(data.detail || "Error al obtener formulario");
+    return data;
+  },
+
+  async obtenerRecomendaciones(respuestas) {
+    const response = await fetch(`${BASE_URL}/recomendar`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(respuestas)
+    });
+    const data = await response.json();
+    if (!response.ok) throw new Error(data.detail || "Error en la inferencia");
+    return data; // Retorna { recomendaciones: [...] }
   }
 };
