@@ -46,6 +46,13 @@ export const API = {
     });
     const data = await response.json();
     if (!response.ok) throw new Error(data.detail || "Error en la inferencia");
-    return data; // Retorna { recomendaciones: [...] }
+    return data;
+  },
+
+  async obtenerHistorial(idUsuario) {
+    const response = await fetch(`${BASE_URL}/historial/${idUsuario}`);
+    const data = await response.json();
+    if (!response.ok) throw new Error("Error al obtener el historial");
+    return data;
   }
 };
