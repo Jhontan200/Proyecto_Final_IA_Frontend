@@ -1,1 +1,9 @@
 @import "tailwindcss";
+@theme {
+  --color-primary: #0a0f2d;      
+  --color-secondary: #563883;    
+  --color-accent: #f7912f;       
+  
+  --font-title: "Syne", sans-serif;
+  --font-sans: "Lato", sans-serif;
+}

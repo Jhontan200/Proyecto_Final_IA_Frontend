@@ -17,7 +17,7 @@ function sincronizarNavbar() {
   navbarRoot.innerHTML = Navbar(usuario, () => navegarA('auth'));
   if (usuario && document.getElementById('btn-historial-nav') === null) {
     const btn = document.createElement('button'); btn.id = 'btn-historial-nav';
-    btn.className = 'text-zinc-400 hover:text-zinc-200 text-xs font-mono ml-4 cursor-pointer';
+    btn.className = 'text-zinc-400 hover:text-accent font-title text-sm ml-6 transition-colors duration-200 cursor-pointer';
     btn.textContent = '[Historial]'; btn.onclick = () => navegarA('historial');
     navbarRoot.appendChild(btn);
   }
@@ -25,16 +25,22 @@ function sincronizarNavbar() {
 
 async function navegarA(ruta) {
   sincronizarNavbar();
-  if (ruta === 'loading') appRoot.innerHTML = `<div class="text-center space-y-4"><div class="animate-spin rounded-full h-7 w-7 border-b-2 border-zinc-500 mx-auto"></div></div>`;
+  if (ruta === 'loading') appRoot.innerHTML = `<div class="flex items-center justify-center min-h-[400px]"><div class="animate-spin rounded-full h-10 w-10 border-b-2 border-accent"></div></div>`;
   else if (ruta === 'error') appRoot.innerHTML = ErrorView();
   else if (ruta === 'auth') appRoot.innerHTML = AuthForm(modoRegistro, manejarAuth, (m) => { modoRegistro = m; navegarA('auth'); });
-  else if (ruta === 'selector_modo') appRoot.innerHTML = QuizModeSelector((modo) => { modoQuiz = modo; navegarA('quiz'); });
+  else if (ruta === 'selector_modo') {
+    // CORRECCIÓN DE RAÍZ: Limpieza estratégica absoluta al volver al panel de control
+    indiceActual = 0;
+    respuestasAcumuladas = {};
+    preguntas = [];
+    appRoot.innerHTML = QuizModeSelector((modo) => { modoQuiz = modo; navegarA('quiz'); });
+  }
   else if (ruta === 'quiz') ejecutarFlujoQuiz();
   else if (ruta === 'historial') {
     try {
       const u = JSON.parse(localStorage.getItem('usuario_ia'));
       const data = await API.obtenerHistorial(u.id_usuario);
-      appRoot.innerHTML = HistoryView(data, () => { indiceActual = 0; respuestasAcumuladas = {}; navegarA('selector_modo'); });
+      appRoot.innerHTML = HistoryView(data, () => { navegarA('selector_modo'); });
     } catch { navegarA('error'); }
   }
 }
@@ -69,7 +75,7 @@ async function ejecutarFlujoQuiz() {
 function protegerRutas() { navegarA(localStorage.getItem('usuario_ia') ? 'selector_modo' : 'auth'); }
 
 async function mostrarResultadosIA() {
-  appRoot.innerHTML = `<div class="text-center space-y-4"><div class="animate-spin h-7 w-7 border-b-2 border-zinc-500 mx-auto"></div></div>`;
+  appRoot.innerHTML = `<div class="flex items-center justify-center min-h-[400px]"><div class="animate-spin rounded-full h-10 w-10 border-b-2 border-accent"></div></div>`;
   try {
     const textoGlobal = Object.values(respuestasAcumuladas).join(" ").toLowerCase();
     let pCalibrado = 4500;
@@ -78,7 +84,7 @@ async function mostrarResultadosIA() {
 
     const uActivo = JSON.parse(localStorage.getItem('usuario_ia'));
     const payloadCalibrado = {
-      id_usuario: uActivo ? uActivo.id_usuario : null, // Sella la fuga de guardado
+      id_usuario: uActivo ? uActivo.id_usuario : null,
       presupuesto: pCalibrado,
       uso: textoGlobal.includes("gaming") ? "gaming" : textoGlobal.includes("estudio") ? "estudio" : "trabajo",
       fotografia: textoGlobal.includes("alta") || textoGlobal.includes("importante") ? "alta" : "normal",
@@ -90,7 +96,7 @@ async function mostrarResultadosIA() {
       sistema_operativo: textoGlobal.includes("ios") || textoGlobal.includes("iphone") ? "ios" : "android"
     };
     const res = await API.obtenerRecomendaciones(payloadCalibrado);
-    appRoot.innerHTML = `<div class="w-full max-w-5xl space-y-8 px-4 py-6 animate-fade-in"><div class="grid grid-cols-1 md:grid-cols-3 gap-6">${res.recomendaciones.map(cel => DeviceCard(cel)).join('')}</div></div>`;
+    appRoot.innerHTML = `<div class="w-full max-w-6xl mx-auto space-y-8 px-4 py-8"><div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">${res.recomendaciones.map(cel => DeviceCard(cel)).join('')}</div></div>`;
   } catch { navegarA('error'); }
 }
 

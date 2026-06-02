@@ -1,13 +1,13 @@
 // src/components/HistoryView.js
 export function HistoryView(historial, alVolver) {
-  window.volverAlQuiz = () => alVolver();
+    window.volverAlQuiz = () => alVolver();
 
-  const filas = historial.map(item => {
-    const disp = item.dispositivos || {};
-    const marca = disp.marcas?.nombre || "Genérica";
-    const fechaFmt = new Date(item.fecha).toLocaleDateString('es-BO', { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' });
+    const filas = historial.map(item => {
+        const disp = item.dispositivos || {};
+        const marca = disp.marcas?.nombre || "Genérica";
+        const fechaFmt = new Date(item.fecha).toLocaleDateString('es-BO', { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' });
 
-    return `
+        return `
             <div class="bg-zinc-900/30 border border-zinc-800/60 p-4 rounded-xl flex flex-col md:flex-row justify-between items-start md:items-center gap-4 font-mono text-xs">
                 <div class="space-y-1 text-left">
                     <div class="flex items-center gap-2">
@@ -21,9 +21,9 @@ export function HistoryView(historial, alVolver) {
                 </div>
             </div>
         `;
-  }).join('');
+    }).join('');
 
-  return `
+    return `
         <div class="w-full max-w-3xl mx-auto space-y-6 px-4 py-6 animate-fade-in">
             <div class="flex justify-between items-center border-b border-zinc-800 pb-4">
                 <div class="text-left">

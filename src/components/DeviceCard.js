@@ -1,27 +1,27 @@
 export function DeviceCard(celular) {
   return `
-        <div class="bg-zinc-900/40 backdrop-blur-xl border border-zinc-800/80 rounded-2xl p-6 shadow-xl flex flex-col justify-between hover:border-zinc-700/80 transition duration-300 animate-fade-in text-left">
+        <div class="bg-secondary/10 backdrop-blur-xl border border-secondary/30 rounded-2xl p-6 shadow-lg flex flex-col justify-between hover:border-accent/40 hover:shadow-[0_0_30px_-5px_rgba(86,56,131,0.4)] transition duration-300 animate-fade-in text-left text-slate-100 font-sans">
             <div>
                 <div class="flex justify-between items-start mb-3">
-                    <span class="text-[10px] font-mono uppercase tracking-wider bg-zinc-800 text-zinc-300 px-2.5 py-1 rounded-md border border-zinc-700/50">${celular.marca}</span>
-                    <span class="text-emerald-400 font-mono text-sm font-semibold">${celular.precio.toLocaleString()} Bs</span>
+                    <span class="text-[10px] font-title uppercase tracking-widest bg-primary/80 text-accent/90 px-2.5 py-1 rounded-md border border-secondary/40 font-bold">${celular.marca}</span>
+                    <span class="text-accent font-title text-base font-bold tracking-tight">${celular.precio.toLocaleString()} Bs</span>
                 </div>
                 
-                <h3 class="text-lg font-medium text-zinc-100 mb-4 tracking-tight">${celular.modelo}</h3>
+                <h3 class="text-xl font-bold text-slate-100 mb-4 tracking-tight font-title">${celular.modelo}</h3>
                 
-                <div class="bg-zinc-950/40 border border-zinc-800/60 rounded-xl p-3 mb-4 text-[11px] font-mono text-zinc-400">
-                    <span class="text-[10px] uppercase tracking-wider text-zinc-500 block mb-1.5">📊 Ficha Técnica:</span>
-                    <p class="text-zinc-300 leading-relaxed">${celular.detalles_tecnicos}</p>
+                <div class="bg-primary/50 border border-secondary/40 rounded-xl p-3 mb-4 text-xs text-slate-300">
+                    <span class="text-[10px] font-title font-bold uppercase tracking-wider text-slate-400 block mb-1.5">📊 Ficha Técnica:</span>
+                    <p class="leading-relaxed font-light">${celular.detalles_tecnicos}</p>
                 </div>
 
-                <div class="bg-emerald-950/10 border border-emerald-900/30 rounded-xl p-3 text-[11px] text-zinc-400">
-                    <span class="text-[10px] font-mono uppercase tracking-wider text-emerald-400 block mb-1">✨ Justificación del Sistema Experto:</span>
-                    <p class="italic leading-relaxed text-zinc-300/90">"${celular.explicacion}"</p>
+                <div class="bg-secondary/10 border border-secondary/40 rounded-xl p-3 text-xs text-slate-300">
+                    <span class="text-[10px] font-title font-bold uppercase tracking-wider text-accent/90 block mb-1">✨ Justificación del Sistema Experto:</span>
+                    <p class="italic leading-relaxed text-slate-200">"${celular.explicacion}"</p>
                 </div>
             </div>
             
             <a href="${celular.tienda_url || '#'}" target="_blank" 
-               class="w-full text-center mt-6 py-2.5 bg-zinc-150 hover:bg-zinc-200 text-zinc-950 font-medium rounded-xl text-xs transition block shadow-md cursor-pointer select-none">
+               class="w-full text-center mt-6 py-2.5 bg-gradient-to-r from-accent/90 via-accent/80 to-secondary/80 hover:from-accent hover:to-secondary text-primary font-bold font-title rounded-xl text-xs tracking-wider transition duration-300 block shadow-md hover:shadow-accent/10 cursor-pointer select-none uppercase">
                 Ver en Tienda (${celular.tienda})
             </a>
         </div>
